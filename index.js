@@ -181,7 +181,7 @@ var callbackAfterGeonamesInserted = function (err, newDocs) {
     // newDocs is and array of the newly inserted document, including its _id
     console.log("    " + newDocs.length + " records inserted");
     
-    app.listen(3000, function () {
+    app.listen(6000, function () {
         console.log('Geoparser is now listening on port 6000!');
     });
 };
