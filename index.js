@@ -1,10 +1,15 @@
 var fs = require('fs');
 var path = require('path');
 
-var Datastore = require('nedb');
-var db = new Datastore();
-var geonames = require('geonames-reader');
 var dir_data = path.join(__dirname, 'data');
+
+var Datastore = require('nedb');
+var db = new Datastore({
+    filename: path.join(dir_data, 'DE', 'DE.db'), 
+    autoload: true
+});
+
+//var geonames = require('geonames-reader');
 
 var express = require('express');
 var app = express();
@@ -97,7 +102,7 @@ app.get("/", function (req, res) {
 app.post('/text', jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
     
-    console.log('received "' + req.body.text + '"');
+    //console.log('received "' + req.body.text + '"');
     
     var tagger = new Tagger(file_lexicon, file_rules, default_category, function(error) {
         if (error) {
@@ -124,7 +129,7 @@ app.post('/text', jsonParser, function (req, res) {
                 function(possible_place, cb) {
             
                     // Perform operation on file here.
-                    console.log('Trying to match possible place "' + possible_place + '"');
+                    //console.log('Trying to match possible place "' + possible_place + '"');
                     db.find(
                         {
                             name : possible_place,
@@ -157,11 +162,11 @@ app.post('/text', jsonParser, function (req, res) {
                     if(err) {
                       // One of the iterations produced an error.
                       // All processing will now stop.
-                      console.log('A possible place failed to match');
+                      //console.log('A possible place failed to match');
                     } 
                     else {
-                      console.log(possible_places.length + ' possible places have been matched successfully');
-                      console.log("We now have " + found_places.length + " found places");
+                      // console.log(possible_places.length + ' possible places have been matched successfully');
+                      // console.log("We now have " + found_places.length + " found places");
                       res.send(found_places);
                     }
                 }
@@ -176,32 +181,36 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-var callbackAfterGeonamesInserted = function (err, newDocs) {   
+app.listen(8000, function () {
+    console.log('Pauliner is now listening on port 8000!');
+});
 
-    // newDocs is and array of the newly inserted document, including its _id
-    console.log("    " + newDocs.length + " records inserted");
-    
-    app.listen(6000, function () {
-        console.log('Geoparser is now listening on port 6000!');
-    });
-};
+// var callbackAfterGeonamesInserted = function (err, newDocs) {   
+// 
+//     // newDocs is and array of the newly inserted document, including its _id
+//     console.log("    " + newDocs.length + " records inserted");
+//     
+//     app.listen(6000, function () {
+//         console.log('Geoparser is now listening on port 6000!');
+//     });
+// };
+// 
+// var features = [];
+// 
+// var insertIntoDb = function(err) {
+//     if (err) console.log(err);
+// 
+//     console.log("    " + features.length + " features read");
+//     console.log("Inserting Geonames into db…");
+// 
+//     // Callback is optional
+//     db.insert(features, callbackAfterGeonamesInserted);
+// };
+// 
+// var readFeature = function(feature, callback) {
+//     features.push(feature);
+//     callback();
+// };
 
-var features = [];
-
-var insertIntoDb = function(err) {
-    if (err) console.log(err);
-
-    console.log("    " + features.length + " features read");
-    console.log("Inserting Geonames into db…");
-
-    // Callback is optional
-    db.insert(features, callbackAfterGeonamesInserted);
-};
-
-var readFeature = function(feature, callback) {
-    features.push(feature);
-    callback();
-};
-
-console.log("Reading Geonames…");
-geonames.read(path.join(dir_data, 'DE', 'DE.txt'), readFeature, insertIntoDb);
+//console.log("Reading Geonames…");
+//geonames.read(path.join(dir_data, 'DE', 'DE.txt'), readFeature, insertIntoDb);
