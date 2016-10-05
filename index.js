@@ -182,7 +182,7 @@ var callbackAfterGeonamesInserted = function (err, newDocs) {
     console.log("    " + newDocs.length + " records inserted");
     
     app.listen(3000, function () {
-        console.log('Geoparser is now listening on port 3000!');
+        console.log('Geoparser is now listening on port 6000!');
     });
 };
 
