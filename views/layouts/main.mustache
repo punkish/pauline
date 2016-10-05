@@ -1,0 +1,117 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>	   <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>	   <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <title>Pauliner: a naive geoparser</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="description of foo">
+    <meta name="Copyright" content="CC0 Public Domain Dedication">
+    <meta name="Author" content="Puneet Kishor">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="/lib/Skeleton-2.0.4/images/favicon.png">
+    <link rel="stylesheet" href="/lib/Skeleton-2.0.4/css/normalize.css">
+    <link rel="stylesheet" href="/lib/Skeleton-2.0.4/css/skeleton.css">
+    <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+    
+    <link rel="stylesheet" href="/lib/leaflet/leaflet.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+    <script src="/lib/leaflet/leaflet.js"></script>
+    <script src="/javascripts/hogan-3.0.2.min.js"></script>
+    
+    <style>
+        #result {margin-bottom: 2em;}
+        #map {width: 100%; height: 400px}
+        footer {margin-top: 2em;}
+    </style>
+</head>
+
+<body>
+    <header class="container">
+        <div class="row">
+            <nav class="twelve columns">
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns">
+                <h2>Pauliner</h2>
+                <p id="byline">a naive geoparser</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="container" id="content">{{> content}}</section>
+
+    <footer class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">To the extent possible under law, <a rel="dct:publisher" href="http://punkish.org"><span property="dct:title">Puneet Kishor</span></a> has waived all copyright and related or neighboring rights to <span property="dct:title"><b>{{app.name}}</b></span> via the <a rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/">CC0 Public Domain Dedication</a>. This work is published from <span property="vcard:Country" datatype="dct:ISO3166" content="US" about="{{app.url}}">The United States</span>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            var map = L.map('map').setView([52.520645, 13.409779], 4);
+            
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            var geoparse = document.getElementById("geoparse");
+            var text = document.getElementById("text");
+            var result = document.getElementById("result");
+            geoparse.addEventListener("click", function(event) {
+                
+                var http = new XMLHttpRequest();
+                var url = "/text";
+                var params = "text=" + text.value;
+                http.open("POST", url, true);
+                
+                //Send the proper header information along with the request
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                
+                //Call a function when the state changes
+                http.onreadystatechange = function() {
+                    if(http.readyState == 4 && http.status == 200) {
+                        var data = http.responseText;
+                        var json = JSON.parse(data);
+                        
+                        result.innerHTML = "<pre><code>" + 
+                            JSON.stringify(json, null, 4) + 
+                            "</code></pre>";
+                        
+                        // http://stackoverflow.com/questions/10936854/highlight-syntax-in-pre-tags-with-highlight-js
+                        var allPre = document.getElementsByTagName("pre");
+                        if (typeof(allPre) !== 'undefined' && allPre != null) {
+                            for (var i=0, j=allPre.length; i<j; i++) {
+                                hljs.highlightBlock(allPre[i]);
+                            }
+                        }
+                        
+                        json.forEach(function(el, i) {
+                            L.marker([el.latitude, el.longitude]).addTo(map)
+                                .bindPopup('<h2>' + el.name + '</h2>');
+                        });
+                    }
+                }
+                http.send(params);
+                
+                // see https://css-tricks.com/dangers-stopping-event-propagation/
+                event.preventDefault();
+                event.stopPropagation();
+            })
+
+        } // end: window.onload
+    </script>
+</body>
+</html>
