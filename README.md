@@ -1,5 +1,5 @@
 # pauliner
-a naive geoparser
+## a naive geoparser
 
 A rather naive geoparser, but you may be intriguted by its pretentiousness. I use `natural` to tokeninize the input, then match NN and NNP against a dump of Geonames (right now using only German placenames).
 
