@@ -30,6 +30,7 @@ var cols = {
 };
 
 var selectFromTable = function() {
+    console.log("selecting some data…");
     var stmt = "SELECT name, feature_class, feature_code, latitude, longitude " + 
         "FROM geonames " +
         "WHERE name = ? AND feature_class = 'P'";
@@ -40,14 +41,18 @@ var selectFromTable = function() {
             console.log(row.name, row.feature_code, row.latitude, row.longitude);
         });
     });
+    console.log("done");
 };
 
 var createIndex = function() {
+    console.log("creating index…");
     var stmt = "CREATE INDEX IF NOT EXISTS idx_names ON geonames (name)";
     db.run(stmt);
+    console.log("done");
 };
 
 var populateTable = function(country) {
+    console.log("populating table…");
     var geonames_file = path.join(dir_data, country, country + '.txt');
     
     var qs = [];
@@ -78,9 +83,11 @@ var populateTable = function(country) {
             stmt.run(vals);
         }
     });
+    console.log("done");
 };
 
-var createTable = function(country) {    
+var createTable = function(country) {   
+    console.log("creating table…"); 
     var cols_defs = []
     for (var i in cols) {
         cols_defs.push(i + " " + cols[i]);
@@ -91,9 +98,10 @@ var createTable = function(country) {
         ")";
     
     db.run(stmt);
+    console.log("done");
 };
 
-//createTable(country);
-//populateTable(country);
-//selectFromTable();
-//createIndex();
+createTable(country);
+populateTable(country);
+createIndex();
+selectFromTable();
