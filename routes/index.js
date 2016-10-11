@@ -5,7 +5,7 @@ var router = express.Router();
 var path = require('path');
 var yaml = require('yaml-front-matter');
 var showdown = require('showdown');
-var converter = new showdown.converter({
+var converter = new showdown.Converter({
     parseImgDimensions: true
 });
 
