@@ -78,6 +78,7 @@ var populateTable = function(country) {
             db.run("END TRANSACTION");
             db.close();
             console.log("done");
+            createIndex();
         }
         else {
             var vals = line.split(/\t/);
@@ -103,5 +104,5 @@ var createTable = function(country) {
 
 createTable(country);
 populateTable(country);
-createIndex();
+
 //selectFromTable();
