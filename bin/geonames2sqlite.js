@@ -52,8 +52,8 @@ var createIndex = function() {
 };
 
 var populateTable = function(country) {
-    console.log("populating table…");
     var geonames_file = path.join(dir_data, country, country + '.txt');
+    console.log("populating table from " + geonames_file + "…");
     
     var qs = [];
     Object.keys(cols).forEach(function(el, i) {
