@@ -1,8 +1,7 @@
 <form method="post" action="/text2">
     <label for="text">text to parse</label>
-    <div><i><b>example text:</b> I live in Frankfurt but I go to Berlin a lot and I also like to visit Hamburg</i></div>
     <textarea class="u-full-width" 
-        placeholder="I live in Frankfurt but I go to Berlin a lot and I also like to visit Hamburg" 
+        placeholder="example text: I live in Frankfurt but I go to Berlin a lot and I also like to visit Hamburg" 
         id="text"></textarea><br>
     <button id="geoparse">geoparse this</button>
 </form>
