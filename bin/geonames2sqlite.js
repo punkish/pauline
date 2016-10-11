@@ -77,13 +77,13 @@ var populateTable = function(country) {
             stmt.finalize();
             db.run("END TRANSACTION");
             db.close();
+            console.log("done");
         }
         else {
             var vals = line.split(/\t/);
             stmt.run(vals);
         }
     });
-    console.log("done");
 };
 
 var createTable = function(country) {   
@@ -104,4 +104,4 @@ var createTable = function(country) {
 createTable(country);
 populateTable(country);
 createIndex();
-selectFromTable();
+//selectFromTable();
