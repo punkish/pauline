@@ -1,7 +1,7 @@
 # Pauliner  
-*(right now) a naive geoparser*
+*a naive geoparser, but you may be intrigued by its presumptuousness*
 
-A rather naive geoparser, but you may be intrigued by its pretentiousness. I use `natural` to tokenize the input, then match NN and NNP against a dump of [Geonames](http://geonames.org) (right now using only German place names).
+I use `natural` to tokenize the input, then match NN and NNP against a dump of [Geonames](http://geonames.org) (right now using only German place names).
 
 ![Anatomy of Pauliner](docs/pauliner.jpg)
 

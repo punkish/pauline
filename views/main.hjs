@@ -43,7 +43,7 @@
         <div class="row">
             <div class="twelve columns">
                 <h2>Pauliner</h2>
-                <p id="byline">a naive geoparser</p>
+                <p id="byline">a naive geoparser, but you may be intrigued by its presumptuousness</p>
             </div>
         </div>
     </header>
