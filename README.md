@@ -3,7 +3,7 @@
 
 I use [natural](https://github.com/NaturalNode/natural) to tokenize the input, then match nouns against a dump of [Geonames](http://geonames.org) (right now using only German place names).
 
-![Anatomy of Pauliner](images/pauliner.jpg)
+![Anatomy of Pauliner](public/images/pauliner.jpg)
 
 Lots of things to do, in no particular order:
 
