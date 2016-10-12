@@ -1,9 +1,9 @@
 # Pauliner  
 *a naive geoparser, but you may be intrigued by its presumptuousness*
 
-I use `natural` to tokenize the input, then match NN and NNP against a dump of [Geonames](http://geonames.org) (right now using only German place names).
+I use [natural](https://github.com/NaturalNode/natural) to tokenize the input, then match nouns against a dump of [Geonames](http://geonames.org) (right now using only German place names).
 
-![Anatomy of Pauliner](docs/pauliner.jpg)
+![Anatomy of Pauliner](images/pauliner.jpg)
 
 Lots of things to do, in no particular order:
 
@@ -15,4 +15,4 @@ Lots of things to do, in no particular order:
 
 See [installing](docs/installing.md)
 
-As usual, everything is in the public domain using the CC0 Public Domain Dedication.
+As usual, everything is in the public domain using the [CC0 Public Domain Dedication](LICENSE).

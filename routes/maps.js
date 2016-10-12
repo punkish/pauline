@@ -6,7 +6,10 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     res.render(
         'main', 
-        {partials : {content : 'partials/maps'}}
+        {
+            production : (app.get('env') === 'production' ? true : false),
+            partials : {content : 'partials/maps'}
+        }
     );
 });
 

@@ -1,5 +1,5 @@
 # Pauliner  
-*(right now) a naive geoparser*
+*a naive geoparser, but you may be intrigued by its presumptuousness*
 
 ## Installing
 

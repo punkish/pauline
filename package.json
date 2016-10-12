@@ -1,6 +1,6 @@
 {
   "name": "Pauliner",
-  "version": "0.0.2",
+  "version": "0.3.0",
   "description": "a naive geoparser",
   "private": true,
   "scripts": {
@@ -18,11 +18,11 @@
     "line-reader": "0.2.3",
     "morgan": "~1.7.0",
     "natural": "^0.4.0",
-    "nedb": "^1.8.0",
     "serve-favicon": "~2.3.0",
     "showdown": "^1.4.0",
     "sqlite3": "^3.1.6",
-    "yaml-front-matter": "latest"
+    "stopwords-iso": "^0.4.0",
+    "yaml-front-matter": "3.4.0"
   },
   "devDependencies": {},
   "author": "Puneet Kishor",

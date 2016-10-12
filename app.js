@@ -5,29 +5,42 @@ var app = express();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 
-// Import all the resources
+// import all the resources
 var index = require('./routes/index');
 var maps = require('./routes/maps');
 var text = require('./routes/text');
 
-// view engine setup
+// Hogan view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+    favicon(
+        path.join(
+            __dirname, 
+            'public', 
+            'lib', 
+            'Skeleton-2.0.4', 
+            'images', 
+            'favicon.png'
+        )
+    )
+);
+
 /*
-The order of which middleware are "defined" using app.use()
-is very important, they are invoked sequentially, thus this
-defines middleware precedence. For example usually
-express.logger() is the very first middleware you would
-use, logging every request EXCEPT static files
+The order of which middleware are "defined" using app.use() is very important, they are invoked sequentially, thus this defines middleware precedence. For example usually express.logger() is the very first middleware you would use, logging every request EXCEPT static files
 */
 
 // output the web log based on running environment
 if (app.get('env') === 'production') {
     
-    // write the log to a file
+    // http://stackoverflow.com/questions/23494956/how-to-use-morgan-logger#23600596
+    // in production, write the log to a file
     var access_log = fs.createWriteStream(
         path.join(__dirname, 'logs', 'access.log'),
+        
+        // append mode
         {flags: 'a'}
     );
     
@@ -39,7 +52,7 @@ if (app.get('env') === 'production') {
             {
                 
                 // no need to write successful responses
-                // log on the errors
+                // log only the errors
                 skip: function(req, res) {
                     return res.statusCode < 400
                 }, 
@@ -55,19 +68,20 @@ else {
     app.use(logger('dev'));
 }
 
-app.use(favicon(path.join(__dirname, 'public', 'lib', 'Skeleton-2.0.4', 'images', 'favicon.png')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers', 
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    next();
+});
 
 // Assign the resources to the routes
 app.use('/', index);
 app.use('/index', index);
 app.use('/maps', maps);
 app.use('/text', text);
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

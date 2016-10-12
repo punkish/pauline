@@ -14,15 +14,19 @@
     window.onload = function() {
         var map = L.map('map').setView([52.520645, 13.409779], 4);
 
+        {{#production}}
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        {{/production}}
         
-        // L.tileLayer('/images/0.png',{
-        //     minZoom: 0,
-        //     maxZoom: 18,
-        //     maxNativeZoom: 0
-        // }).addTo(map);
+        {{^production}}
+        L.tileLayer('/images/0.png',{
+            minZoom: 0,
+            maxZoom: 18,
+            maxNativeZoom: 0
+        }).addTo(map);
+        {{/production}}
 
         var geoparse = document.getElementById("geoparse");
         var text = document.getElementById("text");
