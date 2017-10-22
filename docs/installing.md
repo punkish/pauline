@@ -12,8 +12,8 @@
    - run `node bin/geonames2sqlite.js`
 5. Start the application
    - In development  
-   `$ DEBUG=pauliner:* npm start`  
+     `$ DEBUG=pauliner:* npm start`  
    - In production  
-   `$ NODE_ENV=production npm start`
+     `$ NODE_ENV=production npm start`
    - or with `pm2`  
-   `$ NODE_ENV=production pm2 start bin/www --name pauliner`
+     `$ NODE_ENV=production pm2 start bin/www --name pauliner`

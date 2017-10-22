@@ -1,3 +1,8 @@
+// start the app in 'development' mode with 
+//      $ DEBUG=pauliner:text node bin/www
+// start the app in 'production' mode with 
+//      $ NODE_ENV=production node bin/www
+
 var fs = require('fs');
 var path = require('path');
 var express = require('express');

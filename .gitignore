@@ -37,3 +37,8 @@ Thumbs.db
 # node_modules #
 ################
 node_modules/
+
+# txt files in data folder #
+############################
+data/geonames/DE/DE.txt
+

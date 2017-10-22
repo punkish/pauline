@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/lib/Skeleton-2.0.4/css/normalize.css">
     <link rel="stylesheet" href="/lib/Skeleton-2.0.4/css/skeleton.css">
     <link rel="stylesheet" href="/lib/leaflet/leaflet.css">
-    <link rel="stylesheet" href="/lib/highlight/highlight_styles/default.css">
+    <link rel="stylesheet" href="/lib/highlight/styles/default.css">
     <link rel="stylesheet" href="/stylesheets/styles.css">
     
     <script src="/lib/highlight/highlight.pack.js"></script>

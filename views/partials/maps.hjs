@@ -6,9 +6,8 @@
     <button id="geoparse">geoparse this</button>
 </form>
 
-<div id="result"></div>
-
 <div id="map"></div>
+<div><pre><code id="result" class="json"></code></pre></div>
 
 <script type="text/javascript">
     window.onload = function() {
@@ -28,11 +27,11 @@
         }).addTo(map);
         {{/production}}
 
+        var markers = new L.FeatureGroup();
         var geoparse = document.getElementById("geoparse");
         var text = document.getElementById("text");
         var result = document.getElementById("result");
         geoparse.addEventListener("click", function(event) {
-
             var http = new XMLHttpRequest();
             var url = "/text";
             var params = "text=" + text.value;
@@ -47,22 +46,19 @@
                     var data = http.responseText;
                     var json = JSON.parse(data);
 
-                    result.innerHTML = "<pre><code>" + 
-                        JSON.stringify(json, null, 4) + 
-                        "</code></pre>";
+                    result.innerHTML = JSON.stringify(json, null, 4);
 
                     // http://stackoverflow.com/questions/10936854/highlight-syntax-in-pre-tags-with-highlight-js
-                    var allPre = document.getElementsByTagName("pre");
-                    if (typeof(allPre) !== 'undefined' && allPre != null) {
-                        for (var i=0, j=allPre.length; i<j; i++) {
-                            hljs.highlightBlock(allPre[i]);
-                        }
-                    }
+                    hljs.initHighlightingOnLoad();
 
+                    markers.clearLayers();
+                    
                     json.forEach(function(el, i) {
-                        L.marker([el.latitude, el.longitude]).addTo(map)
-                            .bindPopup('<h2>' + el.name + '</h2>');
+                        var marker = L.marker([el.latitude, el.longitude]);
+                        marker.bindPopup("<h2>" + el.name + "</h2>'");
+                        markers.addLayer(marker);
                     });
+                    map.addLayer(markers);
                 }
             }
             http.send(params);
